@@ -34,6 +34,7 @@ class HomeViewController: UIViewController {
             childVcs.append(vc)
         }
         let pageContentView = PageContentView(frame: contentFrame, childVcs: childVcs, parentViewController: self)
+        pageContentView.delegate = self
         return pageContentView
     }()
     
@@ -86,5 +87,13 @@ extension HomeViewController:PageTitleViewDelegate{
     func pageTitleView(titleView: PageTitleView, selectedIndex index: Int) {
         //设置cillectionView的滚动位置
         pageContentView.setCurrentIndex(currentIndex: index)
+    }
+}
+// MARK: - PageContentViewDelegate
+extension HomeViewController:PageContentViewDelegate{
+    
+    func pageContentView(contenView: PageContentView, progress: CGFloat, sourceIndex: Int, targetIndex: Int) {
+        //调用pageTiltleView内部暴露的方法
+        pageTitleView.setTitltWithProgress(progress: progress, sourceIndex: sourceIndex, targetIndex: targetIndex)
     }
 }
